@@ -1,23 +1,8 @@
 import React, {Component} from 'react';
+import {PokemonListState} from "../interfaces/PokemonListState";
 import PokemonListItem from "./PokemonListItem";
 
-interface Pokemon {
-    name: string,
-    url: string
-}
-
-interface IMyComponentProps {
-
-}
-
-interface IMyComponentState {
-    error: boolean,
-    errorMsg: string,
-    isLoaded: boolean,
-    pokemonList: Pokemon[]
-}
-
-class PokemonList extends Component<IMyComponentProps, IMyComponentState> {
+class PokemonList extends Component<{}, PokemonListState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -35,7 +20,7 @@ class PokemonList extends Component<IMyComponentProps, IMyComponentState> {
                 (result) => {
                     this.setState({
                         isLoaded: true,
-                        pokemonList: result.results,
+                        pokemonList: result,
                         error: false
                     });
                 },
@@ -59,9 +44,9 @@ class PokemonList extends Component<IMyComponentProps, IMyComponentState> {
         else {
             return (
                 <div>
-                    {this.state.pokemonList.map(pokemon => (
-                        <div>{pokemon.name}</div>//<PokemonListItem />
-                ))}
+                    {this.state.pokemonList.map((pokemon) =>
+                        <PokemonListItem name={pokemon}/>
+                    )}
                 </div>
             );
         }
