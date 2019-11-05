@@ -1,7 +1,21 @@
 .Pokedex {
   text-align: center;
+  margin: 0 10%;
+}
+
+.pokeball-icon-container {
+  width: 5rem;
+}
+
+.pokemon-name {
+  font-size: 3rem;
 }
 
 .pokeball-icon {
-  width: 2%;
+  width: 4rem;
+}
+
+.searchContainer {
+  width: 40%;
+  display: inline-block;
 }
