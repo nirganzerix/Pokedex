@@ -2,7 +2,6 @@ package com.jrobinson.pokemondashboard.controller;
 
 import com.jrobinson.pokemondashboard.service.PokemonListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +17,7 @@ public class PokemonRestController {
 
     @RequestMapping(value = "/pokemon", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @Cacheable
     public List<String> getPokemonNameList(){
         return pokemonListService.getPokemonNameList();
     }
-
-//    public PokemonDetail getPokemonDetailByName(String name) {
-//        return pokemonListService.getPokemonDetailByName(name);
-//    }
 }

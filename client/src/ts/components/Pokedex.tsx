@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../../css/Pokedex.css';
-import pokeball from '../../resources/pokeball-icon.jpg';
+import Pokeball from '../../resources/pokeball-icon.jpg';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,6 +25,12 @@ class Pokedex extends Component<{}, PokedexState> {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
+
+    /**
+     * Filters the Pokemon list based on user search input
+     *
+     * @param event - object containing text value attached to Material UI Field
+     */
     filterPokemon(event: any) {
         const filteredPokemonList = this.state.pokemonList.filter((pokemon) => {
             return pokemon.indexOf(event.target.value.toLowerCase()) !== -1
@@ -32,8 +38,24 @@ class Pokedex extends Component<{}, PokedexState> {
         this.setState({filteredPokemonList: filteredPokemonList});
     }
 
+
+    /**
+     * @return the filtered Pokemon list sorted alphabetically
+     */
+    getAlphabeticallySortedPokemonList() {
+        return this.state.filteredPokemonList.sort(function(pokemon1, pokemon2) {
+            if(pokemon1.toLowerCase() < pokemon2.toLowerCase()) return -1;
+            if(pokemon1.toLowerCase() > pokemon2.toLowerCase()) return 1;
+            return 0;
+        });
+    }
+
+
+    /**
+     * Hit Spring Boot endpoint to get list of Pokemon names
+     */
     componentDidMount() {
-        fetch("/pokemon")
+        fetch("/pokemon")                       //proxy is localhost:8080 via package.json
             .then(res => res.json())
             .then(
                 (result) => {
@@ -69,15 +91,11 @@ class Pokedex extends Component<{}, PokedexState> {
                 </div>
                 <div className="pokemon-list">
                     <List>
-                        {this.state.filteredPokemonList.sort(function(a, b) {
-                            if(a.toLowerCase() < b.toLowerCase()) return -1;
-                            if(a.toLowerCase() > b.toLowerCase()) return 1;
-                            return 0;
-                        }).map((pokemon) =>
+                        {this.getAlphabeticallySortedPokemonList().map((pokemon) =>
                             <div>
                                 <ListItem>
                                     <ListItemIcon className="pokeball-icon-container">
-                                        <img className="pokeball-icon" alt="pokeball-icon" src={pokeball}/>
+                                        <img className="pokeball-icon" alt="pokeball-icon" src={Pokeball}/>
                                     </ListItemIcon>
                                     <ListItemText className="pokemon-name" primary={Pokedex.capitalize(pokemon)} disableTypography={true}/>
                                 </ListItem>
